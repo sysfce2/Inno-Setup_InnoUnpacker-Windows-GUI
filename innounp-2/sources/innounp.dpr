@@ -257,13 +257,13 @@ begin
 
       IsCompatible:=IsCompatibleVersion(TestID, VerObject);
       if AttemptUnpackUnknown and IsUnknownVersion and IsCompatible then begin
-        WriteNormalLine('=> Signature detected: ',TestID);
+        WriteNormalText(ExtSp('=> Signature detected:',TextAlign),TestID);
         WriteNormalLine('This is not directly supported, but i''ll try to unpack it as version ',IntToStr(VerObject.VerSupported));
       end;
       if not IsCompatible then begin
         if not SetupLdrMode then SetupCorruptError;
-        WriteNormalText('=> Signature detected: ',TestID);
-        WriteErrorLine(' - This is not a supported version');
+        WriteNormalLine(ExtSp('=> Signature detected:',TextAlign),TestID);
+        WriteErrorLine(' *** This is not a supported version');
         raise EFatalError.Create('1');
       end else if IsVersionSuspicious(Ver) then
         WriteNormalLine(ExtSp('Inno Setup Version specified:',TextAlign),VersionToString(Ver))
@@ -271,9 +271,9 @@ begin
         s:=VersionToString(Ver);
         if (VerIsUnicode) then s:=s+' (Unicode)';
         if (VerIsRT) then s:=s+' (Custom)';
-        WriteNormalLine(ExtSp('Inno Setup version detected: ',TextAlign),s);
+        WriteNormalLine(ExtSp('Inno Setup version detected:',TextAlign),s);
       end;
-      if WarnOnMod then WriteNormalLine('=> Signature: '+TestID);
+      if WarnOnMod then WriteNormalLine(ExtSp('=> Signature:',TextAlign)+TestID);
 
 // Extract the embedded setup exe      // causes problems. disabled for now.
       {if ExtractEmbedded then begin
