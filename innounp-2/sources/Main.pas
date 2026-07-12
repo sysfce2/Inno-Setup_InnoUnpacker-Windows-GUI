@@ -101,7 +101,8 @@ function AddFakeFile(const FileName : String; const FileContents : AnsiString;
                      RenameNow : boolean=false) : integer;
 
 function FileContents(const Filename:string) : string;
-function MakeDir(Dir: String) : Boolean;
+function ExtendPath(const FileName : string) : string;
+function MakeDir(const Dir: String) : Boolean;
 
 function GetCustomMessage (const AText : string) : string;
 
@@ -443,26 +444,49 @@ begin
   CloseFile(f);
 end;
 
-function MakeDir(Dir : String) : Boolean;
+{ ------------------------------------------------------------------- }
+function ExtendPath(const FileName : string) : string;
+const
+  MaxPathLength = 248;  // limit from CreateDirectory (see Windsows SDK)
+begin
+  if (copy(FileName,1,2)='\\') then begin             // UNC path
+    if (copy(FileName,3,2)='?\') then Result:=FileName                 // has already prefix
+    else if length(FileName)>=MaxPathLength then
+      Result:='\\?\UNC\'+Copy(Filename,3,length(Filename)-2)           // network
+    else Result:=FileName;                                             // leave unchanged
+    end
+  else if ((length(FileName)>1) and (FileName[2]<>':')) then Result:=Filename // relative path                                                // relative path
+  else if length(FileName)>=MaxPathLength then Result:='\\?\'+FileName  // add prefix
+  else Result:=FileName;                                                // leave unchanged
+  end;
+
+function MakeDir(const Dir : String) : Boolean;
 { Returns True if a new directory was created }
 var
-  ErrorCode: DWORD;
+  ErrorCode: cardinal;
 begin
-  Result := False;
-  Dir := RemoveBackslash(ExpandFilename(Dir));
-  if (Dir = '') or (AnsiLastChar(Dir)^ = ':') or (ExtractFilePath(Dir) = Dir) then
-    Exit;
-  if DirExists(Dir) then
-    Exit;
-
-  MakeDir(ExtractFilePath(Dir));
-  if not CreateDirectory(PChar(Dir), nil) then begin
+  Result:=ForceDirectories(ExtendPath(Dir));
+  if not Result then begin
     ErrorCode := GetLastError;
     raise Exception.Create(FmtSetupMessage(msgLastErrorMessage,
       [FmtSetupMessage1(msgErrorCreatingDir, Dir), IntToStr(ErrorCode),
        SysErrorMessage(ErrorCode)]));
-  end;
-  Result := True;
+    end;
+//  Result := False;
+//  Dir := RemoveBackslash(ExpandFilename(Dir));
+//  if (Dir = '') or (AnsiLastChar(Dir)^ = ':') or (ExtractFilePath(Dir) = Dir) then
+//    Exit;
+//  if DirExists(Dir) then
+//    Exit;
+//
+//  MakeDir(ExtractFilePath(Dir));
+//  if not CreateDirectory(PChar(Dir), nil) then begin
+//    ErrorCode := GetLastError;
+//    raise Exception.Create(FmtSetupMessage(msgLastErrorMessage,
+//      [FmtSetupMessage1(msgErrorCreatingDir, Dir), IntToStr(ErrorCode),
+//       SysErrorMessage(ErrorCode)]));
+//  end;
+//  Result := True;
 end;
 
 function GetCustomMessage (const AText : string) : string;

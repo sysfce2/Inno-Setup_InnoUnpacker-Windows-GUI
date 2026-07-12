@@ -150,7 +150,7 @@ begin
 
       OpenSlice(FL.FirstSlice);
 
-      FSourceF.Seek(SetupLdrOffset1 + FL.StartOffset);
+      FSourceF.Seek64(SetupLdrOffset1 + FL.StartOffset);
       if FSourceF.Read(TestCompID, SizeOf(TestCompID)) <> SizeOf(TestCompID) then
         SourceIsCorrupted('Failed to read CompID');
       if Longint(TestCompID) <> Longint(ZLIBID) then

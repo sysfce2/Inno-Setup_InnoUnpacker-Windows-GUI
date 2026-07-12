@@ -51,6 +51,8 @@
            2.65 - August 2025   : support for Inno Setup 6.5
            2.66 - November 2025 : support for Inno Setup 6.6
            2.67 - January 2026  : support for Inno Setup 6.7
+
+   last modified: July 2026
 *)
 
 program innounp;
@@ -117,7 +119,7 @@ var
   Password: string;
   CommandAction: TCommandAction;
   StripPaths:boolean=false;
-  OutDir:string='';
+  OutDir : string='';
   BaseDirToStrip:string='';
   AttemptUnpackUnknown:boolean=true;
   ExtractAllCopies:boolean=false;
@@ -729,6 +731,7 @@ function ProcessFileEntry(const Caption : string; const FileExtractor: TFileExtr
   const CurFile: Struct.PSetupFileEntry) : boolean;
 var
   CurFileLocation: PSetupFileLocationEntry;
+  DestName,
   DestFile, TempFile: String;
   DestF: TFile;
   CurFileDate: TFileTime;
@@ -741,10 +744,10 @@ begin
   if CurFile^.LocationEntry = -1 then Exit;
 
   CurFileLocation := PSetupFileLocationEntry(Entries[seFileLocation][CurFile^.LocationEntry]);
-  DestFile:=CurFile^.SourceFileName;
-
-  if length(BaseDirToStrip)>0 then delete(DestFile,1,length(BaseDirToStrip));
-  if StripPaths then DestFile:=ExtractFileName(DestFile);
+  DestName:=CurFile^.SourceFileName;
+  if length(BaseDirToStrip)>0 then delete(DestName,1,length(BaseDirToStrip));
+  if StripPaths then DestName:=ExtractFileName(DestName);
+  DestFile:=ExtendPath(OutDir+DestName);
   if not QuietExtract then begin
     // Check if file already exists and ask if necessary
     if (InteractiveMode) then begin          // changes: JR - August 2020
@@ -752,7 +755,7 @@ begin
         WriteBlueLine(Caption,' - skipped'); Exit;
         end;
       if (OverwriteAction = oaAsk) and FileExists(DestFile) then
-        if not AskFileOverwrite(DestFile) then Exit;
+        if not AskFileOverwrite(DestName) then Exit;
       end
     else if (OverwriteAction <> oaOverwrite) and FileExists(DestFile) then begin
       WriteBlueLine(Caption,' - skipped'); Exit;
@@ -991,7 +994,7 @@ begin
         'A': ExtractAllCopies:=true;
         'B': InteractiveMode:=false;    // changes: JR - August 2020
         'C': BaseDirToStrip:=PathLowercase(AddBackslash(copy(ParamStr(i),3,length(ParamStr(i))-2)));
-        'D': OutDir:=copy(ParamStr(i),3,length(ParamStr(i))-2);
+        'D': OutDir:=IncludeTrailingPathDelimiter(copy(ParamStr(i),3,length(ParamStr(i))-2));
         'E': begin CommandAction:=caExtractFiles; StripPaths:=true; end;
         'F': PasswordFileName:=copy(ParamStr(i),3,length(ParamStr(i))-2);
         'H': NoHeader:=true;
@@ -1155,7 +1158,11 @@ begin
     else begin
       WriteNormalLine(ExtSp('Inno Setup archive:',TextAlign),ExtractFilename(SetupFileName));
       try
-        if OutDir<>'' then begin MakeDir(OutDir); SetCurrentDir(OutDir) end;
+        OutDir:='e:\Butest\BuTest-lang\Dies ist ein besonders langer Verzeichnisname\Dies ist ein besonders langer Verzeichnisname\Dies ist ein besonders langer Verzeichnisname\'+'Dies ist ein besonders langer Verzeichnisname\Dies ist ein besonders langer Verzeichnisname\Bilder\Flaggen\test\';
+        if OutDir<>'' then begin
+          MakeDir(OutDir);
+//          SetCurrentDir(OutDir);
+          end;
         SetupLdr;
         if VerIsUnicode then ScriptAsUtf8:=true;
         InitializeSetup;
