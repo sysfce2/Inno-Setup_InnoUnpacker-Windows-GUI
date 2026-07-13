@@ -112,15 +112,15 @@ begin
   Result := AddBackslash(FOriginSourceDir) + F1;
   if NewFileExists(Result) then Exit;
   if FLastSourceDir <> '' then begin
-    Result := ExpandFilename(AddBackslash(FLastSourceDir) + F2);
+    Result := AddBackslash(FLastSourceDir) + F2;
     if NewFileExists(Result) then Exit;
   end;
-  Result := ExpandFilename(AddBackslash(FOriginSourceDir) + F2);
+  Result := AddBackslash(FOriginSourceDir) + F2;
   if NewFileExists(Result) then Exit;
-  if not FInteractive then raise Exception.Create('Could not find a necessary file: '+F1)
+  if not FInteractive then raise Exception.Create('Could not find disk slice: '+F1)
   else begin
     Result := OpenFileDlg(F1, FOriginSourceDir);
-    if Result='' then raise Exception.Create('Could not find a necessary file: '+F1);
+    if Result='' then raise Exception.Create('Could not find disk slice: '+F1);
     FLastSourceDir := PathExtractDir(Result);
   end;
 end;
@@ -142,7 +142,7 @@ begin
     Filename := FindSliceFilename(ASlice)
   else
     Filename := SetupLdrOriginalFilename;
-  Notify('Reading slice ' + Filename);
+  Notify('Reading slice ' + ExtractFilename(Filename));
   FSourceF := TFile.Create(Filename, fdOpenExisting, faRead, fsRead);
   if SetupLdrOffset1 = 0 then begin
     if Ver>=6502 then begin  // changed header since 6.5.2

@@ -102,6 +102,7 @@ function AddFakeFile(const FileName : String; const FileContents : AnsiString;
 
 function FileContents(const Filename:string) : string;
 function ExtendPath(const FileName : string) : string;
+function IsRootPath (const Path : string) : boolean;
 function MakeDir(const Dir: String) : Boolean;
 
 function GetCustomMessage (const AText : string) : string;
@@ -445,6 +446,7 @@ begin
 end;
 
 { ------------------------------------------------------------------- }
+// Extend long file path
 function ExtendPath(const FileName : string) : string;
 const
   MaxPathLength = 248;  // limit from CreateDirectory (see Windsows SDK)
@@ -458,6 +460,12 @@ begin
   else if ((length(FileName)>1) and (FileName[2]<>':')) then Result:=Filename // relative path                                                // relative path
   else if length(FileName)>=MaxPathLength then Result:='\\?\'+FileName  // add prefix
   else Result:=FileName;                                                // leave unchanged
+  end;
+
+// Check if Path is a root path (e.g. "C:\..")
+function IsRootPath (const Path : string) : boolean;
+begin
+  Result:=AnsiSameText(ExtractFileDrive(Path),ExcludeTrailingPathDelimiter(Path));
   end;
 
 function MakeDir(const Dir : String) : Boolean;

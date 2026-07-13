@@ -799,7 +799,7 @@ begin
   WriteNormalText(Caption);
   if (ExtractTestOnly) then DestF := TNullFile.Create()
   else begin
-    TempFile := GenerateUniqueName(ExtractFilePath(ExpandFilename(DestFile)), '.tmp');
+    TempFile:=GenerateUniqueName(ExtractFilePath(DestFile),'.tmp');
     MakeDir(ExtractFilePath(TempFile));
     DestF := TFile.Create(TempFile, fdCreateAlways, faWrite, fsNone);
   end;
@@ -986,7 +986,7 @@ var
 begin
   Result:=-1; CommandAction:=caInstallInfo; InstallNameParsed:=false; SetLength(FileMasks,0);
   PasswordFileName:=''; ExitCode:=0;
-  ExtractTestOnly := false; Filelist:='';
+  ExtractTestOnly := false; Filelist:=''; SetupFileName:='';
   if (ParamCount<1) then exit;
   for i:=1 to ParamCount do begin
     if (ParamStr(i)[1]='-') and (length(ParamStr(i))>=2) then begin
@@ -1037,7 +1037,7 @@ begin
       SetLength(FileMasks,length(FileMasks)+1); FileMasks[High(FileMasks)]:=ParamStr(i);
       end
     else begin
-      SetupFileName:=ExpandFileName(ParamStr(i));
+      SetupFileName:=ExtendPath(ExpandFileName(ParamStr(i)));
       InstallNameParsed:=true;
       end;
     end;
@@ -1159,9 +1159,11 @@ begin
       WriteNormalLine(ExtSp('Inno Setup archive:',TextAlign),ExtractFilename(SetupFileName));
       try
         if OutDir<>'' then begin
+          OutDir:=ExpandFilename(OutDir);
           MakeDir(OutDir);
 //          SetCurrentDir(OutDir);
-          end;
+          end
+        else OutDir:=IncludeTrailingPathDelimiter(GetCurrentDir);
         SetupLdr;
         if VerIsUnicode then ScriptAsUtf8:=true;
         InitializeSetup;
