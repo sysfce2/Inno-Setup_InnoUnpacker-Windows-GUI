@@ -8,6 +8,7 @@ executable, these open source console applications are available:
 
 - Original version [Innounp](http://sourceforge.net/projects/innounp) (can be used up to InnoSetup 6.1)
 - Updated Unicode version [Innounp-2](innounp-2) (can be used up to InnoSetup 6.7.3)
+- New version 2.70 (can be used up to InnoSetup 7.0)
 
 **InnoUnpacker** is a graphical user interface (GUI) for these console applications
 that makes the usage more comfortable.
@@ -33,5 +34,5 @@ via USB, the folder of the executable file of the program is used instead.
 The same applies if the program is started with the command line option "/p".
 
 
-[Application download](https://www.rathlev-home.de/index-e.html?tools/prog-e.html#unpack)
+[Application download](https://www.rathlev-home.de/index-e.html?tools/prog-e.html#updownload)
 
