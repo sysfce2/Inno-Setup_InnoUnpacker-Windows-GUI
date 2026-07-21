@@ -38,6 +38,12 @@ type
   TMySetupPrivileges = (prNone, prPowerUser, prAdmin, prLowest);
   TMySetupPrivilegesRequiredOverride = (proCommandLine, proDialog);
   TMySetupPrivilegesRequiredOverrides = set of TMySetupPrivilegesRequiredOverride;
+  TMySetupWizardStyle = (wsClassic, wsModern);
+  TMySetupWizardDarkStyle = (wdsLight, wdsDark, wdsDynamic);
+  TMySetupWizardLightControlStyling = (wcsAll, wcsAllButButtons, wcsOnlyRequired);
+  TMySetupEntryBitness = (ebInstallDefault, eb32Bit, eb64Bit, ebNativeBit,
+    ebCurrentProcessBit);
+
   TMySetupDisablePage = (dpAuto, dpNo, dpYes);
   TMySetupShowLanguageDialog =(slYes, slNo, slAuto);
   TMySetupLanguageDetectionMethod = (ldUILanguage, ldLocale, ldNone);
@@ -92,9 +98,6 @@ type
   const MySetupHeaderOptionLast = ord(High(TMySetupHeaderOption));
   type TMySetupHeaderOptions = set of TMySetupHeaderOption;
 
-  TMySetupWizardStyle = (wsClassic, wsModern);
-  TMySetupWizardDarkStyle = (wdsLight, wdsDark, wdsDynamic);
-
   TMySetupHeader = record // in-memory only
     AppName, AppVerName, AppId, AppCopyright, AppPublisher, AppPublisherURL,
       AppSupportPhone, AppSupportURL, AppUpdatesURL, AppVersion, DefaultDirName,
@@ -110,6 +113,7 @@ type
       NumISSigKeyEntries, NumFileEntries, NumFileLocationEntries, NumIconEntries, NumIniEntries,
       NumRegistryEntries, NumInstallDeleteEntries, NumUninstallDeleteEntries,
       NumRunEntries, NumUninstallRunEntries: Integer;
+    CompiledCodeVersion: Cardinal;
     MinVersion, OnlyBelowVersion: TMySetupVersionData;
     BackColor, BackColor2: Longint;
     WizardStyle: TMySetupWizardStyle;
@@ -159,6 +163,7 @@ type
     Attribs: Integer;
     ExternalSize: Int64;
     PermissionsEntry: Smallint;
+    Bitness: TMySetupEntryBitness;
     Options: TMySetupFileOptions;
     FileType: (ftUserFile, ftUninstExe, ftRegSvrExe, ftFakeFile);
     // Custom fields
@@ -217,11 +222,12 @@ type
   type TMySetupRunOptions = set of TMySetupRunOption;
 
   TMySetupRunEntry = record // in-memory only
-    Name, Parameters, WorkingDir, RunOnceId, StatusMsg, Verb: String;
-    Description, Components, Tasks, Languages, Check, AfterInstall, BeforeInstall: String;
+    Name, Parameters, WorkingDir, RunOnceId, StatusMsg, Verb, Description,
+    Components, Tasks, Languages, Check, AfterInstall, BeforeInstall, OnLog: String;
     MinVersion, OnlyBelowVersion: TMySetupVersionData;
     ShowCmd: Integer;
     Wait: (rwWaitUntilTerminated, rwNoWait, rwWaitUntilIdle);
+    Bitness: TMySetupEntryBitness;
     Options: TMySetupRunOptions;
   end;
 

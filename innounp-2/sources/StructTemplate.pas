@@ -75,8 +75,8 @@ const
     {$IF DEFVER>=4205}ord(structDEFVER_EXTSUF_.foDontVerifyChecksum)      {$ELSE}255{$IFEND} ,
     {$IF DEFVER>=5003}ord(structDEFVER_EXTSUF_.foUninsNoSharedFilePrompt) {$ELSE}255{$IFEND} ,
     {$IF DEFVER>=5100}ord(structDEFVER_EXTSUF_.foCreateAllSubDirs)        {$ELSE}255{$IFEND} ,
-    {$IF DEFVER>=5102}ord(structDEFVER_EXTSUF_.fo32bit)                   {$ELSE}255{$IFEND} ,  {fo32bit                   }
-    {$IF DEFVER>=5102}ord(structDEFVER_EXTSUF_.fo64bit)                   {$ELSE}255{$IFEND} ,  {fo64bit                   }
+    {$IF (DEFVER>=5102) AND (DEFVER<7000)}ord(structDEFVER_EXTSUF_.fo32bit) {$ELSE}255{$IFEND} ,  {fo32bit                   }
+    {$IF (DEFVER>=5102) AND (DEFVER<7000)}ord(structDEFVER_EXTSUF_.fo64bit) {$ELSE}255{$IFEND} ,  {fo64bit                   }
     {$IF DEFVER>=5200}ord(structDEFVER_EXTSUF_.foExternalSizePreset)      {$ELSE}255{$IFEND} ,  {foExternalSizePreset      }
     {$IF DEFVER>=5200}ord(structDEFVER_EXTSUF_.foSetNTFSCompression)      {$ELSE}255{$IFEND} ,  {foSetNTFSCompression      }
     {$IF DEFVER>=5200}ord(structDEFVER_EXTSUF_.foUnsetNTFSCompression)    {$ELSE}255{$IFEND} ,  {foUnsetNTFSCompression    }
@@ -126,8 +126,8 @@ const
     ord(structDEFVER_EXTSUF_.roDeleteValue)                                                ,  {roDeleteValue                 }
     ord(structDEFVER_EXTSUF_.roNoError)                                                    ,  {roNoError                     }
     ord(structDEFVER_EXTSUF_.roDontCreateKey)                                              ,  {roDontCreateKey               }
-    {$IF DEFVER>=5100}ord(structDEFVER_EXTSUF_.ro32bit)                 {$ELSE}255{$IFEND} ,  {ro32bit                       }
-    {$IF DEFVER>=5100}ord(structDEFVER_EXTSUF_.ro64bit)                 {$ELSE}255{$IFEND}    {ro64bit                       }
+    {$IF (DEFVER>=5100) AND (DEFVER<7000)}ord(structDEFVER_EXTSUF_.ro32bit) {$ELSE}255{$IFEND} ,  {ro32bit                   }
+    {$IF (DEFVER>=5100) AND (DEFVER<7000)}ord(structDEFVER_EXTSUF_.ro64bit) {$ELSE}255{$IFEND}    {ro64bit                   }
   );
 
   SetupDirOptionTable: array[0..MySetupDirOptionLast] of byte = (
@@ -219,8 +219,8 @@ const
     {$IF DEFVER>=2001}ord(structDEFVER_EXTSUF_.roSkipIfSilent)        {$ELSE}255{$IFEND},
     {$IF DEFVER>=2001}ord(structDEFVER_EXTSUF_.roSkipIfNotSilent)     {$ELSE}255{$IFEND},
     {$IF DEFVER>=2008}ord(structDEFVER_EXTSUF_.roHideWizard)          {$ELSE}255{$IFEND},
-    {$IF DEFVER>=5110}ord(structDEFVER_EXTSUF_.roRun32Bit)            {$ELSE}255{$IFEND},
-    {$IF DEFVER>=5110}ord(structDEFVER_EXTSUF_.roRun64Bit)            {$ELSE}255{$IFEND},
+    {$IF (DEFVER>=5110) AND (DEFVER<7000)}ord(structDEFVER_EXTSUF_.roRun32Bit) {$ELSE}255{$IFEND},
+    {$IF (DEFVER>=5110) AND (DEFVER<7000)}ord(structDEFVER_EXTSUF_.roRun64Bit) {$ELSE}255{$IFEND},
     {$IF DEFVER>=5200}ord(structDEFVER_EXTSUF_.roRunAsOriginalUser)   {$ELSE}255{$IFEND},
     {$IF DEFVER>=6100}ord(structDEFVER_EXTSUF_.roDontLogParameters)   {$ELSE}255{$IFEND},
     {$IF DEFVER>=6300}ord(structDEFVER_EXTSUF_.roLogOutput)           {$ELSE}255{$IFEND}
@@ -602,6 +602,9 @@ begin
     NumIniEntries               :=osh.NumIniEntries;
     NumRegistryEntries          :=osh.NumRegistryEntries;
     NumInstallDeleteEntries     :=osh.NumInstallDeleteEntries;
+{$IF DEFVER>=7000}
+    CompiledCodeVersion         :=osh.CompiledCodeVersion;
+{$IFEND}
     NumUninstallDeleteEntries   :=osh.NumUninstallDeleteEntries;
     NumRunEntries               :=osh.NumRunEntries;
     NumUninstallRunEntries      :=osh.NumUninstallRunEntries;
@@ -901,6 +904,9 @@ begin
     LocationEntry               := ofe.LocationEntry;
     ExternalSize                := Int64(ofe.ExternalSize);
     Attribs                     := ofe.Attribs;
+{$IF DEFVER>=7000}
+    Bitness                     :=Bitness;
+{$IFEND}
     case ofe.FileType of
       ftUserFile: FileType  := MyTypes.ftUserFile;
       ftUninstExe: FileType := MyTypes.ftUninstExe;

@@ -179,7 +179,7 @@ begin
   if pos(SignBegin,s)=1 then i:=length(SignBegin)+1
   else if pos(SignBeginIsx,s)=1 then i:=length(SignBeginIsx)+1
   else exit;
-  if not (s[i] in ['1','2','3','4','5','6']) or (s[i+1]<>'.') then exit;
+  if not (s[i] in ['1','2','3','4','5','6','7']) or (s[i+1]<>'.') then exit;
   j:=i; while (j<=sizeof(TSetupID)) and (s[j]<>')') do inc(j);
   if (j>sizeof(TSetupID)) then exit;
   FileVersion:=copy(s,i,j-i);
