@@ -3,12 +3,11 @@
 #### Inspect and unpack InnoSetup archives
 
 [Inno Setup](http://www.jrsoftware.org/isinfo.php) is a popular program
-for making software installations. To verify and get files out of the self-extracting 
-executable, these open source console applications are available:
+for making software installations. To verify and get files out of the self-extracting executable, these open source console applications are available:
 
 - Original version [Innounp](http://sourceforge.net/projects/innounp) (can be used up to InnoSetup 6.1)
-- Updated Unicode version [Innounp-2](innounp-2) (can be used up to InnoSetup 6.7.3)
-- New version 2.70 (can be used up to InnoSetup 7.0)
+- Updated Unicode version [Innounp-2.70](innounp-2) (can be used up to InnoSetup 7.0.1)
+- The previous [version 2.67](innounp-2/bin) is still available (can be used up to InnoSetup 6.7.3) 
 
 **InnoUnpacker** is a graphical user interface (GUI) for these console applications
 that makes the usage more comfortable.
