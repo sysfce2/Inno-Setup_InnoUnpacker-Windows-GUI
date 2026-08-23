@@ -2,7 +2,7 @@
 
 #### Unpacker for installations made by Inno Setup
 
-#### The version 2.70 supports Inno Setup versions 2.0.7 to 7.1.0
+#### The version 2.71 supports Inno Setup versions 2.0.7 to 7.1.0
 
 #### The binary of the previous [version 2.67](bin) is still available
 
