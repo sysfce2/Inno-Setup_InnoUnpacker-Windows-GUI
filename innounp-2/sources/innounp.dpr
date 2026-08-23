@@ -1,6 +1,6 @@
 (* innounp, the Inno Setup Unpacker
-   Version 2.67
-     Supports Inno Setup versions 2.0.7 through 6.7
+   Version 2.71
+     Supports Inno Setup versions 2.0.7 through 7.1
 
    based on:
      Version 0.50
@@ -51,8 +51,9 @@
            2.65 - August 2025   : support for Inno Setup 6.5
            2.66 - November 2025 : support for Inno Setup 6.6
            2.67 - January 2026  : support for Inno Setup 6.7
+           2.71 - August 2026   : support for Inno Setup 7.1         
 
-   last modified: July 2026
+   last modified: August 2026
 *)
 
 program innounp;
