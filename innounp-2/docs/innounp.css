@@ -3,7 +3,7 @@ h1{
 font-family:Georgia, Minion Web, Palatino, Book Antiqua, Utopia, Times New Roman, serif;
 font-size-adjust:.4;
 font-size:2.0em;
-font-weight:600;
+font-weight:semi bold;
 font-style:normal;
 text-decoration:none;
 word-spacing:normal;
@@ -15,7 +15,7 @@ h2{
 font-family:Georgia, Minion Web, Palatino, Book Antiqua, Utopia, Times New Roman, serif;
 font-size-adjust:.4;
 font-size:1.75em;
-font-weight:500;
+font-weight:medium;
 font-style:normal;
 text-decoration:none;
 word-spacing:normal;
@@ -27,7 +27,7 @@ h3{
 font-family:Georgia, Minion Web, Palatino, Book Antiqua, Utopia, Times New Roman, serif;
 font-size-adjust:.4;
 font-size:1.58em;
-font-weight:600;
+font-weight:semi bold;
 font-style:italic;
 text-decoration:none;
 word-spacing:normal;
@@ -39,7 +39,7 @@ h4{
 font-family:Georgia, Minion Web, Palatino, Book Antiqua, Utopia, Times New Roman, serif;
 font-size-adjust:.4;
 font-size:1.33em;
-font-weight:600;
+font-weight:bold;
 font-style:normal;
 text-decoration:none;
 word-spacing:normal;
@@ -51,7 +51,7 @@ h5, dt{
 font-family:Georgia, Minion Web, Palatino, Book Antiqua, Utopia, Times New Roman, serif;
 font-size-adjust:.4;
 font-size:1.17em;
-font-weight:600;
+font-weight:semi bold;
 font-style:italic;
 text-decoration:none;
 word-spacing:normal;

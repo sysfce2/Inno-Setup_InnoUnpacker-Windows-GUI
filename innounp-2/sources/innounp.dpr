@@ -860,7 +860,9 @@ begin
       FileName:=AnsiLowercase(PathExtractName(AFile^.SourceFileName));
 //      if AFile^.DestName<>'' then FileName:=AnsiLowercase(PathExtractName(AFile^.DestName));
       MaskName:=AnsiLowercase(PathExtractName(FileMasks[i]));
-      if (MaskName='**') and not SameStr(MaskPath,FilePath) then break else MaskName:='*';
+      if (MaskName='**') then begin
+        if SameStr(MaskPath,FilePath) then MaskName:='*' else break;
+        end;
       if MaskPath ='' then
         Result:=WildcardMatch(PChar(FileName),PChar(AnsiLowercase(FileMasks[i])))
       else if IsWildcard(MaskName) then
@@ -869,9 +871,9 @@ begin
         Result := WildcardMatch(PChar(FilePath), PChar(MaskPath)) and (FileName = MaskName);
 //      else Result:=false;
       if Result then break;
-    end;
-  end else Result:=true;
-end;
+      end;
+    end else Result:=true;
+  end;
 
 procedure ExtractorNotification(MessageText: String);
 begin
